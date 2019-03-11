@@ -1,0 +1,62 @@
+CREATE TABLE student(
+    student_id TEXT NOT NULL,
+    first_name  TEXT NOT NULL,
+    last_name  TEXT NOT NULL,
+    CONSTRAINT pkey_student KEY(student_id)
+    );
+
+CREATE TABLE student_grupa(
+    student_id  TEXT NOT NULL,
+    group_id  TEXT NOT NULL,
+    CONSTRAINT pkey PRIMARY KEY(student_id, group_id),
+    CONSTRAINT fkey_student FOREIGN KEY (student_id) REFERENCES student(student_id),
+    CONSTRAINT fkey_group FOREIGN KEY (group_id) REFERENCES grupa(group_id)
+    );
+
+CREATE TABLE ocena(
+    grade_id  TEXT NOT NULL,
+    grade_value  TEXT NOT NULL,
+    subject_id  TEXT NOT NULL,
+    student_id  TEXT NOT NULL,
+    CONSTRAINT pkey PRIMARY KEY(grade_id),
+    CONSTRAINT fkey_student FOREIGN KEY (student_id) REFERENCES student(student_id),
+    CONSTRAINT fkey_przedmiot FOREIGN KEY (subject_id) REFERENCES przedmiot(subject_id)
+    );
+    
+CREATE TABLE przedmiot(
+    subject_id  TEXT NOT NULL,
+    subject_title  TEXT NOT NULL,
+    CONSTRAINT pkey PRIMARY KEY(subject_id)
+    );
+    
+CREATE TABLE zajecia(
+    classes_id  TEXT NOT NULL,
+    group_id  TEXT NOT NULL,
+    subject_id  TEXT NOT NULL,
+    employee_id  TEXT NOT NULL,
+    CONSTRAINT pkey PRIMARY KEY(classes_id),
+    CONSTRAINT fkey_grupa FOREIGN KEY (group_id) REFERENCES grupa(group_id),
+    CONSTRAINT fkey_przedmiot FOREIGN KEY (subject_id) REFERENCES przedmiot(subject_id),
+    CONSTRAINT fkey_pracownik FOREIGN KEY (employee_id) REFERENCES pracownik(employee_id)
+    );
+    
+CREATE TABLE grupa(
+    group_id  TEXT NOT NULL,
+    CONSTRAINT pkey PRIMARY KEY(group_id)
+    );
+
+CREATE TABLE wydzial(
+    department_id TEXT NOT NULL,
+    department_name TEXT NOT NULL,
+    dean_id TEXT NOT NULL,
+    CONSTRAINT pkey PRIMARY KEY (department_id)
+	);
+    
+CREATE TABLE pracownik(
+    employee_id TEXT NOT NULL,
+    department_id TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    CONSTRAINT pkey PRIMARY KEY(employee_id),
+    CONSTRAINT fkey_wydzial FOREIGN KEY (department_id) REFERENCES wydzial(department_id)
+    );
